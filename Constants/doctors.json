@@ -1,0 +1,185 @@
+{
+    "doctors": [
+      {
+        "name": "Dr. Selam Teshome",
+        "specialization": "Dermatologist",
+        "education": {
+          "degree": "Specialization in Dermatology",
+          "institution": "Tikur Anbessa Specialized Hospital",
+          "graduation_year": "2017 EC"
+        },
+        "contact": {
+          "phone": "+251914719859",
+          "telegram": "surafel_is_here"
+        },
+        "work_schedule": {
+          "days": ["Monday", "Wednesday", "Friday", "Saturday"],
+          "time": "14:00 AM - 18:00 AM"
+        },
+        "about": "Dr. Selam Teshome is a highly experienced dermatologist specializing in skin conditions with over 10 years of experience."
+      },
+      {
+        "name": "Dr. Alemayehu Kebede",
+        "specialization": "Cardiologist",
+        "education": {
+          "degree": "MD in Cardiology",
+          "institution": "Addis Ababa University",
+          "graduation_year": "2015 EC"
+        },
+        "contact": {
+          "phone": "+251911223344",
+          "telegram": "alemayehu_cardio"
+        },
+        "work_schedule": {
+          "days": ["Tuesday", "Thursday", "Saturday"],
+          "time": "10:00 AM - 16:00 PM"
+        },
+        "about": "Dr. Alemayehu Kebede has extensive experience in treating cardiovascular diseases and conducting heart surgeries."
+      },
+      {
+        "name": "Dr. Genet Mulugeta",
+        "specialization": "Pediatrician",
+        "education": {
+          "degree": "Specialization in Pediatrics",
+          "institution": "Gondar University",
+          "graduation_year": "2016 EC"
+        },
+        "contact": {
+          "phone": "+251922334455",
+          "telegram": "genet_pediatrics"
+        },
+        "work_schedule": {
+          "days": ["Monday", "Wednesday", "Friday"],
+          "time": "09:00 AM - 14:00 PM"
+        },
+        "about": "Dr. Genet Mulugeta is a dedicated pediatrician who has been serving children’s healthcare needs for over 8 years."
+      },
+      {
+        "name": "Dr. Biniam Tadesse",
+        "specialization": "Orthopedic Surgeon",
+        "education": {
+          "degree": "MD in Orthopedics",
+          "institution": "Jimma University",
+          "graduation_year": "2014 EC"
+        },
+        "contact": {
+          "phone": "+251933445566",
+          "telegram": "biniam_orthopedics"
+        },
+        "work_schedule": {
+          "days": ["Monday", "Thursday", "Saturday"],
+          "time": "12:00 PM - 18:00 PM"
+        },
+        "about": "Dr. Biniam Tadesse specializes in orthopedic surgeries and the treatment of musculoskeletal disorders."
+      },
+      {
+        "name": "Dr. Yordanos Hailu",
+        "specialization": "Gynecologist",
+        "education": {
+          "degree": "Specialization in Gynecology",
+          "institution": "Hawassa University",
+          "graduation_year": "2018 EC"
+        },
+        "contact": {
+          "phone": "+251944556677",
+          "telegram": "yordanos_gyn"
+        },
+        "work_schedule": {
+          "days": ["Tuesday", "Friday", "Saturday"],
+          "time": "13:00 PM - 17:00 PM"
+        },
+        "about": "Dr. Yordanos Hailu provides specialized care for women’s reproductive health with over 5 years of experience."
+      },
+      {
+        "name": "Dr. Haile Michael",
+        "specialization": "Neurologist",
+        "education": {
+          "degree": "MD in Neurology",
+          "institution": "Mekele University",
+          "graduation_year": "2016 EC"
+        },
+        "contact": {
+          "phone": "+251955667788",
+          "telegram": "haile_neuro"
+        },
+        "work_schedule": {
+          "days": ["Monday", "Wednesday", "Friday"],
+          "time": "10:00 AM - 15:00 PM"
+        },
+        "about": "Dr. Haile Michael is a neurologist who has been treating patients with neurological conditions for more than 7 years."
+      },
+      {
+        "name": "Dr. Lensa Abebe",
+        "specialization": "Oncologist",
+        "education": {
+          "degree": "Specialization in Oncology",
+          "institution": "Addis Ababa University",
+          "graduation_year": "2015 EC"
+        },
+        "contact": {
+          "phone": "+251966778899",
+          "telegram": "lensa_onco"
+        },
+        "work_schedule": {
+          "days": ["Tuesday", "Thursday", "Saturday"],
+          "time": "08:00 AM - 14:00 PM"
+        },
+        "about": "Dr. Lensa Abebe specializes in cancer treatment and therapy with more than 8 years of experience in oncology."
+      },
+      {
+        "name": "Dr. Dawit Tesfaye",
+        "specialization": "Ophthalmologist",
+        "education": {
+          "degree": "MD in Ophthalmology",
+          "institution": "Bahir Dar University",
+          "graduation_year": "2016 EC"
+        },
+        "contact": {
+          "phone": "+251977889900",
+          "telegram": "dawit_ophtha"
+        },
+        "work_schedule": {
+          "days": ["Monday", "Wednesday", "Friday"],
+          "time": "11:00 AM - 16:00 PM"
+        },
+        "about": "Dr. Dawit Tesfaye is an expert in eye care and surgeries, having served in the field for over 6 years."
+      },
+      {
+        "name": "Dr. Sofia Tamrat",
+        "specialization": "Dentist",
+        "education": {
+          "degree": "Specialization in Dentistry",
+          "institution": "Arba Minch University",
+          "graduation_year": "2017 EC"
+        },
+        "contact": {
+          "phone": "+251988990011",
+          "telegram": "sofia_dentist"
+        },
+        "work_schedule": {
+          "days": ["Tuesday", "Thursday", "Saturday"],
+          "time": "09:00 AM - 13:00 PM"
+        },
+        "about": "Dr. Sofia Tamrat is a highly skilled dentist with expertise in dental care and oral surgery."
+      },
+      {
+        "name": "Dr. Meron Alemu",
+        "specialization": "Radiologist",
+        "education": {
+          "degree": "Specialization in Radiology",
+          "institution": "Haromaya University",
+          "graduation_year": "2019 EC"
+        },
+        "contact": {
+          "phone": "+251999110022",
+          "telegram": "meron_radiology"
+        },
+        "work_schedule": {
+          "days": ["Monday", "Wednesday", "Friday"],
+          "time": "12:00 PM - 18:00 PM"
+        },
+        "about": "Dr. Meron Alemu is a radiologist with advanced skills in diagnostic imaging, serving patients for 4 years."
+      }
+    ]
+  }
+  

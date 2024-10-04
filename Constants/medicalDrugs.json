@@ -1,0 +1,129 @@
+{
+  "medical_drugs": [
+    {
+      "drug_name": "Aspirin",
+      "category": "Analgesic",
+      "description": "Aspirin is a medication used to reduce pain, fever, or inflammation. It is often used to treat headaches, muscle aches, toothaches, and colds.",
+      "best_use": "Best used to relieve mild to moderate pain and reduce fever or inflammation.",
+      "instructions": "Take 1-2 tablets every 4-6 hours as needed. Do not exceed 8 tablets in 24 hours. Take with a full glass of water.",
+      "expiry_date": "2025-06-15",
+      "manufacturing_date": "2023-06-15",
+      "batch_no": "AS12345",
+      "brand": "Bayer",
+      "manufacturing_country": "Germany",
+      "image": "https://pin.it/2W9ZUPhfS"
+    },
+    {
+      "drug_name": "Amoxicillin",
+      "category": "Antibiotic",
+      "description": "Amoxicillin is an antibiotic used to treat a wide variety of bacterial infections. It works by stopping the growth of bacteria.",
+      "best_use": "Best used for treating bacterial infections such as ear infections, bladder infections, pneumonia, and gonorrhea.",
+      "instructions": "Take 500 mg every 8 hours, or as directed by a doctor. Can be taken with or without food.",
+      "expiry_date": "2024-11-30",
+      "manufacturing_date": "2023-01-15",
+      "batch_no": "AM56789",
+      "brand": "GlaxoSmithKline",
+      "manufacturing_country": "United Kingdom",
+      "image": "https://pin.it/3zgiqR9o9"
+    },
+    {
+      "drug_name": "Paracetamol",
+      "category": "Analgesic/Antipyretic",
+      "description": "Paracetamol is a common painkiller used to treat aches and pain. It can also be used to reduce fever.",
+      "best_use": "Best used to treat mild to moderate pain, including headaches, toothaches, and fevers.",
+      "instructions": "Take 1-2 tablets (500 mg each) every 4-6 hours as needed. Do not exceed 8 tablets in 24 hours.",
+      "expiry_date": "2026-03-12",
+      "manufacturing_date": "2024-03-12",
+      "batch_no": "PC10023",
+      "brand": "Tylenol",
+      "manufacturing_country": "USA"
+    },
+    {
+      "drug_name": "Ibuprofen",
+      "category": "Nonsteroidal Anti-inflammatory Drug (NSAID)",
+      "description": "Ibuprofen is used to reduce fever and treat pain or inflammation caused by many conditions such as headache, toothache, arthritis, or minor injuries.",
+      "best_use": "Best used to relieve pain, reduce fever, and decrease inflammation.",
+      "instructions": "Take 200-400 mg every 4-6 hours as needed. Do not exceed 1200 mg in 24 hours without a doctor's direction.",
+      "expiry_date": "2025-10-10",
+      "manufacturing_date": "2023-10-10",
+      "batch_no": "IB89012",
+      "brand": "Advil",
+      "manufacturing_country": "USA"
+    },
+    {
+      "drug_name": "Ciprofloxacin",
+      "category": "Antibiotic",
+      "description": "Ciprofloxacin is an antibiotic used to treat bacterial infections. It is particularly effective against gram-negative bacteria.",
+      "best_use": "Best used for treating respiratory infections, urinary tract infections, and skin infections.",
+      "instructions": "Take 500 mg every 12 hours with a full glass of water, preferably on an empty stomach.",
+      "expiry_date": "2024-08-05",
+      "manufacturing_date": "2023-08-05",
+      "batch_no": "CF23456",
+      "brand": "Cipro",
+      "manufacturing_country": "India"
+    },
+    {
+      "drug_name": "Metformin",
+      "category": "Antidiabetic",
+      "description": "Metformin is used to control high blood sugar in people with type 2 diabetes. It helps restore your body's proper response to insulin.",
+      "best_use": "Best used to improve blood sugar control in people with type 2 diabetes.",
+      "instructions": "Take 500 mg twice a day with meals. Do not crush or chew the tablets.",
+      "expiry_date": "2025-12-20",
+      "manufacturing_date": "2023-12-20",
+      "batch_no": "MF45678",
+      "brand": "Glucophage",
+      "manufacturing_country": "France"
+    },
+    {
+      "drug_name": "Omeprazole",
+      "category": "Proton Pump Inhibitor",
+      "description": "Omeprazole is used to treat certain stomach and esophagus problems (such as acid reflux and ulcers).",
+      "best_use": "Best used to reduce stomach acid and treat conditions like GERD and stomach ulcers.",
+      "instructions": "Take one 20 mg tablet daily, preferably before a meal.",
+      "expiry_date": "2026-01-15",
+      "manufacturing_date": "2024-01-15",
+      "batch_no": "OM34567",
+      "brand": "Prilosec",
+      "manufacturing_country": "Mexico"
+    },
+    {
+      "drug_name": "Loratadine",
+      "category": "Antihistamine",
+      "description": "Loratadine is an antihistamine that reduces the effects of natural histamine in the body. It is used to treat allergy symptoms.",
+      "best_use": "Best used to relieve symptoms of hay fever, allergies, and hives.",
+      "instructions": "Take one 10 mg tablet once a day. Can be taken with or without food.",
+      "expiry_date": "2025-09-20",
+      "manufacturing_date": "2023-09-20",
+      "batch_no": "LR76543",
+      "brand": "Claritin",
+      "manufacturing_country": "Canada",
+      "image": "../assets/Simvastatin.jpeg"
+    },
+    {
+      "drug_name": "Simvastatin",
+      "category": "Cholesterol-lowering drug",
+      "description": "Simvastatin is used to help lower bad cholesterol and fats (such as LDL and triglycerides) and raise good cholesterol (HDL) in the blood.",
+      "best_use": "Best used to reduce the risk of heart disease by lowering cholesterol levels.",
+      "instructions": "Take 20-40 mg once daily in the evening.",
+      "expiry_date": "2026-04-18",
+      "manufacturing_date": "2024-04-18",
+      "batch_no": "SV67890",
+      "brand": "Zocor",
+      "manufacturing_country": "Germany",
+      "image": "../assets/Simvastatin.jpeg"
+    },
+    {
+      "drug_name": "Losartan",
+      "category": "Antihypertensive",
+      "description": "Losartan is used to treat high blood pressure (hypertension) and to help protect the kidneys from damage due to diabetes.",
+      "best_use": "Best used for lowering blood pressure and reducing the risk of strokes in patients with heart disease.",
+      "instructions": "Take 50 mg once daily, with or without food.",
+      "expiry_date": "2025-07-25",
+      "manufacturing_date": "2023-07-25",
+      "batch_no": "LS89123",
+      "brand": "Cozaar",
+      "manufacturing_country": "USA",
+      "image": "../assets/losartan.jpeg"
+    }
+  ]
+}
