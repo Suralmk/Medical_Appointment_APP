@@ -5,19 +5,22 @@ import {
   TouchableOpacity,
   TextInput,
   SafeAreaView,
-  Alert
+  Alert,
+  RefreshControl
 } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
-import Ionicons from 'react-native-vector-icons/Ionicons'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import DrugList from '../Components/DrugList'
 //import drugs from '../Constants/medicalDrugs.json'
 import useGlobal from '../Core/global'
 import api from '../Core/api'
+import DrugSkeleton from '../Components/Skeletons/DrugSkeleton'
 const Pharmacy = ({ navigation }) => {
   const { tokens } = useGlobal()
   const [drugs, setDrugs] = useState([])
 
+  const [refreshing, setRefreshing] = useState(true)
   const [searched, setSearched] = useState('')
 
   const fetchDrugs = async () => {
@@ -33,6 +36,8 @@ const Pharmacy = ({ navigation }) => {
         'Error',
         err.response ? err.response.data.detail : err.message
       )
+    } finally {
+      setRefreshing(false)
     }
   }
 
@@ -44,6 +49,14 @@ const Pharmacy = ({ navigation }) => {
     drug.drug_name.toLowerCase().includes(searched.toLowerCase())
   )
 
+  const onRefresh = useCallback(() => {
+    setRefreshing(true)
+
+    setTimeout(() => {
+      fetchDrugs()
+      setRefreshing(false)
+    }, 2000)
+  }, [])
   return (
     <SafeAreaView className={'flex-1'}>
       <View
@@ -57,7 +70,7 @@ const Pharmacy = ({ navigation }) => {
           <EvilIcons name='search' size={25} color={'#7e7f82'} />
 
           <TextInput
-            className={'bg-none flex-1'}
+            className={'bg-none flex-1 '}
             selectionColor={'black'}
             placeholder='Search Drugs'
             onChangeText={text => setSearched(text)}
@@ -67,18 +80,32 @@ const Pharmacy = ({ navigation }) => {
           className={'px-3 py-3 rounded-xl bg-primary w-max'}
           activeOpacity={0.8}
         >
-          <Ionicons name='filter-outline' color={'white'} size={20} />
+          <MaterialIcons name='filter-list' color={'white'} size={20} />
         </TouchableOpacity>
       </View>
       <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
         style={{ height: Dimensions.get('screen').height }}
         className={'bg-neutral p-3 pt-0'}
       >
         <View className={'flex flex-col items-start mt-3 justify-between'}>
           <View className={''}>
-            {filteredDrugs.map((drug, index) => (
-              <DrugList key={index} drug={drug} />
-            ))}
+            {refreshing ? (
+              <>
+                {[...Array(10).keys()].map(index => (
+                  <DrugSkeleton key={index} />
+                ))}
+              </>
+            ) : (
+              <>
+                {filteredDrugs.map((drug, index) => (
+                  <DrugList key={index} drug={drug} />
+                ))}
+              </>
+            )}
           </View>
         </View>
       </ScrollView>

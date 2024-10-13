@@ -18,18 +18,11 @@ const DoctorDetail = ({ navigation }) => {
   const route = useRoute()
   const { setSelectedDoctor } = useGlobal()
   const { doctor } = route.params
-  const openTelegram = () => {
-    const telegramUrl = 'tg://resolve?domain=surafel_is_here'
 
-    Linking.canOpenURL(telegramUrl)
-      .then(supported => {
-        if (supported) {
-          Linking.openURL(telegramUrl)
-        } else {
-          Alert.alert('Telegram is not installed')
-        }
-      })
-      .catch(err => console.error('An error occurred', err))
+  const openTelegram = () => {
+    Linking.openURL('https://t.me/Surafel_is_here').catch(err =>
+      Alert.alert('Telegram', 'Telegram: @surafel_is_here')
+    )
   }
 
   const openPhoneApp = () => {

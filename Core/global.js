@@ -15,13 +15,6 @@ const useGlobal = create(set => ({
       loading: val
     }))
   },
-  // Bottomsheet
-  bottomSheet: false,
-  setBottomSheet: val => {
-    set(state => ({
-      bottomSheet: val
-    }))
-  },
   // Initialization
   initialized: false,
   authenticated: false,

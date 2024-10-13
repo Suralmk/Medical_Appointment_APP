@@ -7,8 +7,7 @@ import {
   Keyboard
 } from 'react-native'
 import CustomText from '../../Components/CustomText'
-import Input from '../../Components/Input'
-import useGlobal from '../../Core/global'
+
 const Step3 = ({ handleChange, handleNextStep, handlePreviousStep }) => {
   const [phone_no, setPhoneNumber] = useState('')
   const [phoneNoError, setPhoneNoError] = useState('')
@@ -30,7 +29,7 @@ const Step3 = ({ handleChange, handleNextStep, handlePreviousStep }) => {
       setPhoneNoError('Please Enter Phone Number')
       return false
     } else if (!phoneRegex.test(phone_no)) {
-      setPhoneNoError('Enter a valid Phone Number!')
+      setPhoneNoError('Enter a valid Phone Number ,9 digits')
       return false
     } else {
       setPhoneNoError('')

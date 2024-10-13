@@ -8,10 +8,16 @@ import { useRoute } from '@react-navigation/native'
 import useGlobal from '../Core/global'
 const MultiStepAppointmentForm = ({ navigation }) => {
   const route = useRoute()
-  const { doctor } = route?.params || {}
+  const { doctor } = route?.params || ''
   const [currentStep, setCurrentStep] = useState(doctor ? 2 : 1)
-
-  const { formData, setFormData, setSelectedDoctor } = useGlobal()
+  const { setSelectedDoctor } = useGlobal()
+  const [formData, setFormData] = useState({
+    doctor: '',
+    date: '',
+    time: '',
+    phone_no: '',
+    caseInfo: ''
+  })
 
   useEffect(() => {
     if (doctor) {
@@ -19,10 +25,10 @@ const MultiStepAppointmentForm = ({ navigation }) => {
         ...prevData,
         doctor: doctor.id
       }))
-      setSelectedDoctor(doctor)
       setCurrentStep(2)
+      setSelectedDoctor(doctor)
     }
-  }, [doctor])
+  }, [doctor, setSelectedDoctor])
 
   const handleNextStep = () => {
     setCurrentStep(currentStep + 1)

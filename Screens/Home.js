@@ -5,9 +5,10 @@ import {
   TouchableOpacity,
   FlatList,
   Image,
-  Alert
+  Alert,
+  RefreshControl
 } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import CustomText from '../Components/CustomText'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
@@ -16,10 +17,13 @@ import CategroyList from '../Components/CategroyList'
 //import doctorsData from '../Constants/doctors.json'
 import api from '../Core/api'
 import useGlobal from '../Core/global'
+import CategorySkeleton from '../Components/Skeletons/CategroySkeleton'
+import DoctorSkeleton from '../Components/Skeletons/DcotorsSkeleton'
 export default function Home ({ navigation }) {
   const { tokens, user } = useGlobal()
   const [doctors, setDoctors] = useState([])
   const [specialization, setSpecialization] = useState([])
+  const [refreshing, setRefreshing] = useState(true)
 
   const fetchDoctors = async () => {
     try {
@@ -55,6 +59,7 @@ export default function Home ({ navigation }) {
   useEffect(() => {
     fetchDoctors()
     fetchSpecialization()
+    setRefreshing(false)
   }, [])
   const [currentDoctorIndex, setCurrentDoctorIndex] = useState(0)
 
@@ -79,8 +84,24 @@ export default function Home ({ navigation }) {
     '#95A5A6'
   ]
 
+  //Reload
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true)
+
+    setTimeout(() => {
+      fetchDoctors()
+      fetchSpecialization()
+      setRefreshing(false)
+    }, 2000)
+  }, [])
+
   return (
     <ScrollView
+      contentContainerStyle={{ flexGrow: 1 }}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
       style={{ height: Dimensions.get('screen').height }}
       className={'bg-neutral p-3'}
     >
@@ -117,11 +138,11 @@ export default function Home ({ navigation }) {
       </View>
       <View
         className={
-          'bg-secondary h-[170px] rounded-xl mt-5 overflow-hidden relatives '
+          'bg-secondary h-[180px] rounded-xl mt-5 overflow-hidden relatives '
         }
       >
         <Image
-          source={require('../assets/banner.png')}
+          source={require('../assets/banner.webp')}
           className={'w-full h-full'}
         />
 
@@ -139,7 +160,7 @@ export default function Home ({ navigation }) {
           <TouchableOpacity
             onPress={() =>
               navigation.navigate('Appointment', {
-                doctor_id: currentDoctor.id
+                doctor: currentDoctor
               })
             }
             className={'px-3 py-2 rounded-xl bg-primary w-[100px]'}
@@ -154,17 +175,27 @@ export default function Home ({ navigation }) {
       <View className={'h-auto rounded-xl mt-5 flex felx-col space-y-3'}>
         <CustomText className={'text-lg'}>Specialization</CustomText>
         <View className={'mt-5 flex flex-row  '}>
-          <FlatList
-            data={specialization}
-            renderItem={({ item, index }) => (
-              <CategroyList specialization={item} color={colors[index]} />
-            )}
-            keyExtractor={item => item.specialization}
-            contentContainerStyle={{ flexGrow: 1 }}
-            horizontal
-            pagingEnabled
-            showsHorizontalScrollIndicator={false}
-          />
+          {refreshing ? (
+            <>
+              {[...Array(10).keys()].map(index => (
+                <CategorySkeleton key={index} />
+              ))}
+            </>
+          ) : (
+            <>
+              <FlatList
+                data={specialization}
+                renderItem={({ item, index }) => (
+                  <CategroyList specialization={item} color={colors[index]} />
+                )}
+                keyExtractor={item => item.specialization}
+                contentContainerStyle={{ flexGrow: 1 }}
+                horizontal
+                pagingEnabled
+                showsHorizontalScrollIndicator={false}
+              />
+            </>
+          )}
         </View>
       </View>
       <View className={' h-auto rounded-xl mt-5'}>
@@ -183,9 +214,19 @@ export default function Home ({ navigation }) {
         </View>
 
         <View>
-          {doctors.map((doctor, index) => (
-            <DoctorList key={index} doctor={doctor} />
-          ))}
+          {refreshing ? (
+            <>
+              {[...Array(10).keys()].map(index => (
+                <DoctorSkeleton key={index} />
+              ))}
+            </>
+          ) : (
+            <>
+              {doctors.map((doctor, index) => (
+                <DoctorList key={index} doctor={doctor} />
+              ))}
+            </>
+          )}
         </View>
       </View>
     </ScrollView>

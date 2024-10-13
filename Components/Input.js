@@ -12,7 +12,7 @@ const Input = ({
   numOfLine,
   placeholder
 }) => {
-  const [showPass, setShowPass] = useState(false)
+  const [showPass, setShowPass] = useState(true)
   const [isFocused, setIsFocused] = useState(false)
 
   return (
@@ -35,7 +35,7 @@ const Input = ({
         }`}
       >
         <TextInput
-          secureTextEntry={showPass ? true : false}
+          secureTextEntry={showPass && isPass ? true : false}
           className={'flex-1 placeholder:text-[15px]'}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}

@@ -7,25 +7,23 @@ import {
   ScrollView,
   TouchableOpacity
 } from 'react-native'
-import React, { useState, useRef, useEffect } from 'react'
-import CustomText from '../Components/CustomText'
+import React, { useState, useRef, useEffect, useLayoutEffect } from 'react'
+import CustomText from '../../Components/CustomText'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import DoctorList from '../Components/DoctorList'
-import useGlobal from '../Core/global'
-import api from '../Core/api'
-
-const Search = ({ navigation }) => {
+import useGlobal from '../../Core/global'
+import api from '../../Core/api'
+import PatientList from '../../Components/PatientList'
+const DoctorSearch = ({ navigation }) => {
   const searchRef = useRef()
   const [searched, setSearched] = useState('')
-  const [searcherror, setSearchError] = useState('')
   const [searchResult, setSearchResult] = useState([])
   const { tokens } = useGlobal()
 
   const handleSearch = async () => {
     try {
-      const res = await api.get(`doctors/search/?search=${searched}`, {
+      const res = await api.get(`doctor/patients/search/?search=${searched}`, {
         headers: {
           Authorization: `Bearer ${tokens.access}`
         }
@@ -38,11 +36,15 @@ const Search = ({ navigation }) => {
       )
     }
   }
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: false
+    })
+  }, [navigation])
 
   useEffect(() => {
     if (searchRef.current) {
       searchRef.current.focus()
-     
     }
   }, [])
   useEffect(() => {
@@ -57,9 +59,7 @@ const Search = ({ navigation }) => {
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={() => navigation.goBack()}
-            className={
-              ' flex-col items-center justify-center px-2 rounded-3xl'
-            }
+            className={' flex-col items-center justify-center px-2 rounded-3xl'}
           >
             <AntDesign name='arrowleft' size={19} color={'black'} />
           </TouchableOpacity>
@@ -74,7 +74,7 @@ const Search = ({ navigation }) => {
               ref={searchRef}
               className={'bg-none flex-1 text-[13px]'}
               selectionColor={'black'}
-              placeholder='Search Doctor, Specialization'
+              placeholder='Search Your Ptients'
               onChangeText={text => setSearched(text)}
             />
           </View>
@@ -105,8 +105,8 @@ const Search = ({ navigation }) => {
             </View>
           ) : (
             <ScrollView className={'flex-1 w-full'}>
-              {searchResult.map((doctor, index) => (
-                <DoctorList key={index} doctor={doctor} />
+              {searchResult.map((patient, index) => (
+                <PatientList key={index} patient={patient} />
               ))}
             </ScrollView>
           )}
@@ -116,4 +116,4 @@ const Search = ({ navigation }) => {
   )
 }
 
-export default Search
+export default DoctorSearch

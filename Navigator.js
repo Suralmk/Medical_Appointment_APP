@@ -1,4 +1,10 @@
-import { StyleSheet, Dimensions, TouchableOpacity, View } from 'react-native'
+import {
+  Image,
+  SafeAreaView,
+  StatusBar,
+  TouchableOpacity,
+  View
+} from 'react-native'
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
@@ -9,7 +15,6 @@ import Feather from 'react-native-vector-icons/Feather'
 import Fontisto from 'react-native-vector-icons/Fontisto'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import Home from './Screens/Home'
-import Appointment from './Screens/Appointment'
 import Profile from './Screens/Profile'
 import Pharmacy from './Screens/Pharmacy'
 import Splash from './Screens/Splash'
@@ -28,9 +33,20 @@ import PersonalDetail from './Screens/Profile/PersonalDetail'
 import HealthRecords from './Screens/Profile/HealthRecords'
 import MedicalHistory from './Screens/Profile/MedicalHistory'
 import MedicalAppointments from './Screens/Profile/MedicalAppointments'
+import DoctorProfile from './Screens/Profile/DoctorProfile'
+import AboutApp from './Screens/Profile/AboutApp'
+//
+import Patients from './Screens/Doctor/Patients'
+import PatientDetail from './Screens/Doctor/PatientDetail'
+import DoctorHome from './Screens/Doctor/DoctorHome'
+import DoctorSearch from './Screens/Doctor/DoctorSearch'
+import AddLabResult from './Screens/Doctor/AddLabResult'
+import AddHealthRecord from './Screens/Doctor/AddHealthRecord'
+import LabResult from './Screens/Doctor/LabResult'
 // Home Stack Navigator
 const Stack = createStackNavigator()
 const HomeStackNavigator = () => {
+  const { user } = useGlobal()
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -80,7 +96,7 @@ const HomeStackNavigator = () => {
       <Stack.Screen
         options={{
           presentation: 'containedModal',
-          headerShown: false
+          headerTitle: 'Personal Detail'
         }}
         name='PersonalDetail'
         component={PersonalDetail}
@@ -88,7 +104,7 @@ const HomeStackNavigator = () => {
       <Stack.Screen
         options={{
           presentation: 'containedModal',
-          headerShown: false
+          headerTitle: 'Health Records'
         }}
         name='HealthRecords'
         component={HealthRecords}
@@ -96,7 +112,7 @@ const HomeStackNavigator = () => {
       <Stack.Screen
         options={{
           presentation: 'containedModal',
-          headerShown: false
+          headerTitle: 'Medical History'
         }}
         name='MedicalHistory'
         component={MedicalHistory}
@@ -104,11 +120,73 @@ const HomeStackNavigator = () => {
       <Stack.Screen
         options={{
           presentation: 'containedModal',
-          headerShown: false
+          headerTitle: 'Appointments'
         }}
         name='MedicalAppointments'
         component={MedicalAppointments}
       />
+      <Stack.Screen
+        options={{
+          presentation: 'containedModal',
+          headerTitle: 'About This App'
+        }}
+        name='AboutApp'
+        component={AboutApp}
+      />
+
+      {user.user.doctor && (
+        <>
+          <Stack.Screen
+            options={{
+              presentation: 'DoctorProfile'
+            }}
+            name='DoctorProfile'
+            component={DoctorProfile}
+          />
+          <Stack.Screen
+            options={{
+              presentation: 'containedModal'
+            }}
+            name='Patients'
+            component={Patients}
+          />
+          <Stack.Screen
+            options={{
+              presentation: 'containedModal'
+            }}
+            name='PatientDetail'
+            component={PatientDetail}
+          />
+          <Stack.Screen
+            options={{
+              presentation: 'containedModal'
+            }}
+            name='DoctorSearch'
+            component={DoctorSearch}
+          />
+          <Stack.Screen
+            options={{
+              presentation: 'modal'
+            }}
+            name='AddLabResult'
+            component={AddLabResult}
+          />
+          <Stack.Screen
+            options={{
+              presentation: 'modal'
+            }}
+            name='AddHealthRecord'
+            component={AddHealthRecord}
+          />
+          <Stack.Screen
+            options={{
+              presentation: 'modal'
+            }}
+            name='LabResult'
+            component={LabResult}
+          />
+        </>
+      )}
     </Stack.Navigator>
   )
 }
@@ -117,11 +195,9 @@ const HomeStackNavigator = () => {
 const Tab = createMaterialBottomTabNavigator()
 
 const TabsNavigator = () => {
+  const { user } = useGlobal()
   return (
     <Tab.Navigator
-      screenOptions={{
-        headerShown: true
-      }}
       activeColor='#3e6ae9'
       inactiveColor='#3e2465'
       activeIndicatorStyle={{
@@ -136,8 +212,8 @@ const TabsNavigator = () => {
       }}
     >
       <Tab.Screen
-        name='Home'
-        component={Home}
+        name={user.user.doctor ? 'DoctorHome' : 'Home'}
+        component={user.user.doctor ? DoctorHome : Home}
         options={{
           headerShown: false,
           tabBarLabel: '',
@@ -158,6 +234,7 @@ const TabsNavigator = () => {
         name='HealthTips'
         component={HealthTips}
         options={{
+          headerTitle: 'name',
           headerShown: false,
           tabBarLabel: '',
           tabBarIcon: ({ color }) => (
@@ -174,11 +251,11 @@ const TabsNavigator = () => {
         }}
       />
       <Tab.Screen
-        name='Appointment'
-        component={MultiStepAppointmentForm}
+        name={user.user.doctor ? 'Patients' : 'Appointment'}
+        component={user.user.doctor ? Patients : MultiStepAppointmentForm}
         options={{
           tabBarLabel: '',
-          headerShown: true,
+          headerShown: false,
           tabBarIcon: ({ color }) => (
             <View
               style={{
@@ -188,10 +265,24 @@ const TabsNavigator = () => {
                 height: 50,
                 backgroundColor: '#3e6ae9',
                 borderRadius: 35,
-                bottom: 8
+                bottom: 8,
+                padding: 2,
+                overflow: 'hidden'
               }}
             >
-              <MaterialIcons name='add' size={35} color={'#fff'} />
+              {user.user.doctor ? (
+                <Image
+                  style={{
+                    width: 35,
+                    hright: 3,
+                    objectFit: 'cover'
+                  }}
+                  className={' object-contain'}
+                  source={require('./assets/doctor.png')}
+                />
+              ) : (
+                <MaterialIcons name='add' size={35} color={'#fff'} />
+              )}
             </View>
           )
         }}
@@ -243,24 +334,23 @@ const Navigator = () => {
   const { initialized, authenticated } = useGlobal()
   return (
     <NavigationContainer>
-      {!initialized ? (
-        <Stack.Navigator>
-          <Stack.Screen
-            options={{
-              headerShown: false
-            }}
-            name='Splash'
-            component={Splash}
-          />
-        </Stack.Navigator>
-      ) : (
-        <>
-          {authenticated ? (
-            <>
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#F8F9FA' }}>
+        <StatusBar barStyle='dark-content' backgroundColor='#F8F9FA' />
+        {!initialized ? (
+          <Stack.Navigator>
+            <Stack.Screen
+              options={{
+                headerShown: false
+              }}
+              name='Splash'
+              component={Splash}
+            />
+          </Stack.Navigator>
+        ) : (
+          <>
+            {authenticated ? (
               <HomeStackNavigator />
-            </>
-          ) : (
-            <>
+            ) : (
               <Stack.Navigator
                 screenOptions={{
                   headerShown: false
@@ -270,10 +360,10 @@ const Navigator = () => {
                 <Stack.Screen name='Register' component={Register} />
                 <Stack.Screen name='ResetPassword' component={ResetPassword} />
               </Stack.Navigator>
-            </>
-          )}
-        </>
-      )}
+            )}
+          </>
+        )}
+      </SafeAreaView>
     </NavigationContainer>
   )
 }

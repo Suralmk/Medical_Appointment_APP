@@ -8,8 +8,16 @@ const Splash = () => {
         'h-screen  flex flex-col items-center justify-center bg-neutral'
       }
     >
-      <Image source={require('../assets/logo.png')} className={'w-[100px] h-[100px]'} />
-      <CustomText className={'text-3xl text-primary mt-5'}>DocSync</CustomText>
+      <Image
+        source={require('../assets/logo.png')}
+        className={'w-[100px] h-[100px]'}
+      />
+      <CustomText
+        style={{ fontFamily: 'NunitoSans-bold' }}
+        className={'text-3xl text-primary mt-5'}
+      >
+        DocSync
+      </CustomText>
     </SafeAreaView>
   )
 }

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import {
   View,
   SafeAreaView,
-  TouchableOpacity,
+  RefreshControl,
   Alert,
   ScrollView
 } from 'react-native'
@@ -10,11 +10,11 @@ import CustomText from '../../Components/CustomText'
 import useGlobal from '../../Core/global'
 import api from '../../Core/api'
 import AntDesign from 'react-native-vector-icons/AntDesign'
-
+import AppointmentSkeletonLoader from '../../Components/Skeletons/AppointmentSkeleton'
 const MedicalAppointments = ({ navigation }) => {
   const { tokens } = useGlobal()
   const [appointments, setAppointments] = useState([])
-
+  const [refreshing, setRefreshing] = useState(true)
   const fetchAppointments = async () => {
     try {
       const res = await api.get('appointments/', {
@@ -28,60 +28,101 @@ const MedicalAppointments = ({ navigation }) => {
         'Error',
         err.response ? err.response.data.message : err.message
       )
+    } finally {
+      setRefreshing(false)
     }
   }
   useEffect(() => {
     fetchAppointments()
   }, [])
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true)
+
+    setTimeout(() => {
+      fetchAppointments()
+      setRefreshing(false)
+    }, 2000)
+  }, [])
   return (
     <SafeAreaView
       className={'bg-neutral h-full flex flex-col justify-between '}
     >
-      <View
-        className={
-          'w-full px-3 h-[50px] mt- bg-neutral  flex flex-row items-center justify-start space-x-3'
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
+        className={' bg-neutral flex-1 p-3'}
       >
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={() => navigation.goBack()}
-          className={' flex-col items-center justify-center bg-red'}
-        >
-          <AntDesign name='arrowleft' size={26} color={'black'} />
-        </TouchableOpacity>
-        <CustomText
-          style={{ fontFamily: 'NunitoSans-bold' }}
-          className={'text-xl w-full text-start text-black'}
-        >
-          Appointments
-        </CustomText>
-      </View>
-      {appointments?.length === 0 ? (
-        <View className={' bg-neutral flex-1 p-3 items-center justify-center'}>
-          <CustomText className={'text-2xl'}>No History</CustomText>
+        <View className={'flex-col space-y-5 rounded-xl '}>
+          {refreshing ? (
+            <>
+              {[...Array(5).keys()].map(index => (
+                <AppointmentSkeletonLoader key={index} />
+              ))}
+            </>
+          ) : (
+            <>
+              {appointments?.length === 0 ? (
+                <View
+                  className={
+                    ' bg-neutral flex-1 p-3 items-center justify-center'
+                  }
+                >
+                  <CustomText className={'text-2xl'}>
+                    No Appointment
+                  </CustomText>
+                </View>
+              ) : (
+                <>
+                  {appointments.map((appointment, index) => (
+                    <View
+                      key={index}
+                      className={
+                        'flex flex-col bg-white p-2 shadow-md shadow-black/10 '
+                      }
+                    >
+                      <CustomText className={' text-xl'}>
+                        {appointment.doctor_name}
+                      </CustomText>
+                      <CustomText className={' '}>
+                        Date: {appointment.date}
+                      </CustomText>
+                      <CustomText className={' '}>
+                        {' '}
+                        Time: {appointment.time}
+                      </CustomText>
+                      <CustomText className={' '}>
+                        Case:{appointment?.caseInfo}
+                      </CustomText>
+                      <View
+                        className={
+                          'flex flex-row w-full items-center justify-end '
+                        }
+                      >
+                        <CustomText
+                          className={`p-1 px-4 text-center text-white rounded-xl ${
+                            appointment.status == 'Pending'
+                              ? 'bg-orange-300'
+                              : appointment.status === 'Cancelled'
+                              ? 'bg-red-400'
+                              : appointment.status === 'Confirmed'
+                              ? 'bg-blue-400'
+                              : 'bg-green-500'
+                          }`}
+                        >
+                          {appointment.status}
+                        </CustomText>
+                      </View>
+                    </View>
+                  ))}
+                </>
+              )}
+            </>
+          )}
         </View>
-      ) : (
-        <ScrollView className={' bg-neutral flex-1 p-3'}>
-          <View className={'flex-col space-y-5 rounded-xl '}>
-            {appointments.map((appointment, index) => (
-              <View
-              key={index}
-                className={
-                  'flex flex-col bg-white p-2 shadow-md shadow-black/10 '
-                }
-              >
-                <CustomText className={' text-lg'}>
-                  {appointment.doctor}
-                </CustomText>
-                <CustomText className={' '}>{appointment.date}</CustomText>
-                <CustomText className={' '}>{appointment.time}</CustomText>
-                <CustomText className={' '}>{appointment?.caseInfo}</CustomText>
-                <CustomText className={' '}>{appointment.status}</CustomText>
-              </View>
-            ))}
-          </View>
-        </ScrollView>
-      )}
+      </ScrollView>
     </SafeAreaView>
   )
 }

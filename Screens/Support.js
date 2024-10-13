@@ -21,7 +21,7 @@ const Support = () => {
           How Can We help?
         </CustomText>
       </View>
-      <View className={'p-5 pt-0 flex flex-col justify-between flex-1'}>
+      <View className={'p-5  pt-0 flex flex-col justify-between flex-1'}>
         <View className={' mt-10 flex flex-col space-y-5 flex-1'}>
           <Input
             label={'Message'}

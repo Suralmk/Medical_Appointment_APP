@@ -1,12 +1,14 @@
-import { View, ScrollView, Alert } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import { View, ScrollView, Alert, RefreshControl } from 'react-native'
+import React, { useState, useEffect, useCallback } from 'react'
 import DoctorList from '../Components/DoctorList'
 //import doctorsData from '../Constants/doctors.json'
 import useGlobal from '../Core/global'
 import api from '../Core/api'
+import DoctorSkeleton from '../Components/Skeletons/DcotorsSkeleton'
 const Doctors = () => {
   const { tokens } = useGlobal()
   const [doctors, setDoctors] = useState([])
+  const [refreshing, setRefreshing] = useState(true)
 
   const fetchDoctors = async () => {
     try {
@@ -21,18 +23,47 @@ const Doctors = () => {
         'Error',
         err.response ? err.response.data.detail : err.message
       )
+    } finally {
+      setRefreshing(false)
     }
   }
 
   useEffect(() => {
     fetchDoctors()
   }, [])
+
+  //Reload
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true)
+
+    setTimeout(() => {
+      fetchDoctors()
+      setRefreshing(false)
+    }, 2000)
+  }, [])
   return (
-    <ScrollView className={'bg-neutral h-full  flex flex-col'}>
+    <ScrollView
+      contentContainerStyle={{ flexGrow: 1 }}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+      className={'bg-neutral h-full  flex flex-col'}
+    >
       <View className={'p-2'}>
-        {doctors.map((doctor, index) => (
-          <DoctorList key={index} doctor={doctor} />
-        ))}
+        {refreshing ? (
+          <>
+            {[...Array(10).keys()].map(index => (
+              <DoctorSkeleton key={index} />
+            ))}
+          </>
+        ) : (
+          <>
+            {doctors.map((doctor, index) => (
+              <DoctorList key={index} doctor={doctor} />
+            ))}
+          </>
+        )}
       </View>
     </ScrollView>
   )

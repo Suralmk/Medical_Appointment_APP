@@ -1,36 +1,29 @@
-import { View, SafeAreaView, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { View, SafeAreaView, TouchableOpacity, Alert } from 'react-native'
+import React, { useLayoutEffect } from 'react'
 import CustomText from '../../Components/CustomText'
 import useGlobal from '../../Core/global'
-import api from '../../Core/api'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
 const PersonalDetail = ({ navigation }) => {
-  const { user } = useGlobal()
-
-  return (
-    <SafeAreaView
-      className={'bg-neutral h-full flex flex-col justify-between '}
-    >
-      <View
-        className={
-          'w-full px-3 h-[50px] mt- bg-neutral  flex flex-row items-center justify-start space-x-3'
-        }
-      >
+  const { user, logout } = useGlobal()
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
         <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={() => navigation.goBack()}
-          className={' flex-col items-center justify-center bg-red'}
+          disabled={!user.user}
+          onPress={() => {
+            Alert.alert('Coming Soon', 'This feature will be added soon.')
+          }}
+          style={{ marginRight: 15 }}
         >
-          <AntDesign name='arrowleft' size={26} color={'black'} />
+          <AntDesign name='edit' size={20} color='black' />
         </TouchableOpacity>
-        <CustomText
-          style={{ fontFamily: 'NunitoSans-bold' }}
-          className={'text-xl w-full text-start text-black'}
-        >
-          Personal Details
-        </CustomText>
-      </View>
+      )
+    })
+  }, [navigation])
+  return (
+    <SafeAreaView className={'bg-neutral  flex-1 flex-col justify-between  '}>
       <View className={' bg-neutral flex-1 p-3'}>
         <View className={'flex flex-col space-y-2'}>
           <CustomText className={'text-[15px]'}>Full Name</CustomText>
@@ -58,6 +51,16 @@ const PersonalDetail = ({ navigation }) => {
           </CustomText>
         </View>
       </View>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => logout()}
+        className={
+          'bg-white rounded-2xl flex flex-row items-center space-x-2 px-7 py-2 shadow-sm shadow-black/50 w-full m-auto mb-5'
+        }
+      >
+        <MaterialIcons name='logout' size={20} color='red' />
+        <CustomText className={'text-lg text-red-600 '}>Logout</CustomText>
+      </TouchableOpacity>
     </SafeAreaView>
   )
 }

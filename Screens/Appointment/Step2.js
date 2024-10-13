@@ -1,70 +1,33 @@
 import DateTimePicker from '@react-native-community/datetimepicker'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text, TouchableOpacity, Alert } from 'react-native'
 import CustomText from '../../Components/CustomText'
 import useGlobal from '../../Core/global'
-
-const Step2 = ({ handleChange, handleNextStep, handlePreviousStep }) => {
-  const { selectedDoctor, formData, setSelectedDoctor } = useGlobal()
+import utils from '../../Core/utils'
+const Step2 = ({
+  formData,
+  handleChange,
+  handleNextStep,
+  handlePreviousStep
+}) => {
+  const { selectedDoctor } = useGlobal()
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [showTimePicker, setShowTimePicker] = useState(false)
 
   // Track selected date and time
-  const [selectedDate, setSelectedDate] = useState(formData.date || new Date())
-  const [selectedTime, setSelectedTime] = useState(formData.time || new Date())
+  const [selectedDate, setSelectedDate] = useState(formData.date)
+  const [selectedTime, setSelectedTime] = useState(formData.time)
 
   const onDateChange = (event, date) => {
     setShowDatePicker(false)
-    if (date) {
-      setSelectedDate(date)
-      handleChange('date', date)
-    }
+    setSelectedDate(date)
+    handleChange('date', date)
   }
 
   const onTimeChange = (event, time) => {
     setShowTimePicker(false)
-    if (time) {
-      setSelectedTime(time)
-      handleChange('time', time)
-    }
-  }
-
-  // Helper function to convert time (12-hour format with AM/PM) to 24-hour format
-  const convertTo24HourFormat = time12h => {
-    const [time, modifier] = time12h.split(' ')
-    let [hours, minutes] = time.split(':')
-
-    if (hours === '12') {
-      hours = '00'
-    }
-    if (modifier === 'PM') {
-      hours = parseInt(hours, 10) + 12
-    }
-
-    return `${hours}:${minutes}`
-  }
-
-  // Function to check if the selected date is in the doctor's working days
-  const isDateInSchedule = () => {
-    const dayOfWeek = selectedDate.toLocaleDateString('en-US', {
-      weekday: 'long'
-    })
-    return selectedDoctor.work_schedule.days.includes(dayOfWeek)
-  }
-
-  // Function to check if the selected time is within the doctor's working hours
-  const isTimeInSchedule = () => {
-    const [startTime, endTime] = selectedDoctor.work_schedule.time.split(' - ')
-    const start24 = convertTo24HourFormat(startTime)
-    const end24 = convertTo24HourFormat(endTime)
-
-    const selectedHour = selectedTime.getHours()
-    const selectedMinute = selectedTime.getMinutes()
-    const selected24 = `${selectedHour}:${
-      selectedMinute < 10 ? '0' : ''
-    }${selectedMinute}`
-
-    return selected24 >= start24 && selected24 <= end24
+    setSelectedTime(time)
+    handleChange('time', time)
   }
 
   const ValidateStep = () => {
@@ -72,22 +35,10 @@ const Step2 = ({ handleChange, handleNextStep, handlePreviousStep }) => {
       Alert.alert('Error', 'Please select a Date')
       return false
     }
-
-    if (!isDateInSchedule()) {
-      Alert.alert('Error', "Selected date is not in doctor's working schedule")
-      return false
-    }
-
     if (!selectedTime) {
       Alert.alert('Error', 'Please select a Time')
       return false
     }
-
-    if (!isTimeInSchedule()) {
-      Alert.alert('Error', "Selected time is not within doctor's working hours")
-      return false
-    }
-
     return true
   }
 
@@ -96,7 +47,6 @@ const Step2 = ({ handleChange, handleNextStep, handlePreviousStep }) => {
       handleNextStep()
     }
   }
-
   return (
     <View className={'w-full flex-1 flex-col p-3 pt-5 bg-neutral'}>
       <CustomText
@@ -105,9 +55,7 @@ const Step2 = ({ handleChange, handleNextStep, handlePreviousStep }) => {
       >
         Select Appointment Date
       </CustomText>
-
       <View className={'flex-1 flex flex-col space-y-5 mt-5'}>
-        {/* Date Selection */}
         <View className={'flex flex-col space-y-3'}>
           <CustomText className={'text-lg'}>Select Appointment Date</CustomText>
           <TouchableOpacity
@@ -131,8 +79,6 @@ const Step2 = ({ handleChange, handleNextStep, handlePreviousStep }) => {
             />
           )}
         </View>
-
-        {/* Time Selection */}
         <View className={'flex flex-col space-y-3'}>
           <CustomText className={'text-lg'}>Select Appointment Time</CustomText>
           <TouchableOpacity
@@ -155,34 +101,36 @@ const Step2 = ({ handleChange, handleNextStep, handlePreviousStep }) => {
             />
           )}
         </View>
-
-        {/* Doctor's Working Schedule */}
-        <View className={'flex-col space-y-3'}>
-          <CustomText className={'w-full text-center text-lg'}>
-            Work Time
-          </CustomText>
-          <CustomText className={'w-full text-center'}>
-            {selectedDoctor.work_schedule.time}
-          </CustomText>
-          <View className={'w-full flex-row space-x-2'}>
-            {selectedDoctor.work_schedule.days.map((day, index) => (
-              <CustomText key={index} className={'w-full text-center'}>
-                {day}
+      </View>
+      <View className={'flex-col space-y-3 flex-1'}>
+        <CustomText className={'w-full text-center text-lg'}>
+          Work Time
+        </CustomText>
+        <CustomText className={'w-full text-center'}>
+          {selectedDoctor.work_schedule?.time || 'N/A'}{' '}
+          {/* Display 'N/A' if time is not available */}
+        </CustomText>
+        <View className={'w-full flex-row space-x-2 justify-center'}>
+          {Array.isArray(selectedDoctor.work_schedule?.days) &&
+          selectedDoctor.work_schedule.days.length > 0 ? (
+            selectedDoctor.work_schedule.days.map((day, index) => (
+              <CustomText key={index} className={'w-max text-center'}>
+                {day.trim()}
               </CustomText>
-            ))}
-          </View>
+            ))
+          ) : (
+            <CustomText className={'w-full text-center'}>
+              No available days
+            </CustomText>
+          )}
         </View>
       </View>
 
-      {/* Next and Back Buttons */}
       <View
         className={'flex flex-row items-center space-x-5 w-full justify-center'}
       >
         <TouchableOpacity
-          onPress={() => {
-            setSelectedDoctor(null)
-            handlePreviousStep()
-          }}
+          onPress={handlePreviousStep}
           className={'px-3 py-2 rounded-xl bg-white w-[120px]'}
           activeOpacity={0.8}
         >
@@ -193,7 +141,6 @@ const Step2 = ({ handleChange, handleNextStep, handlePreviousStep }) => {
             Back
           </CustomText>
         </TouchableOpacity>
-
         <TouchableOpacity
           onPress={handleNext}
           className={`px-3 py-2 rounded-xl w-[120px] ${

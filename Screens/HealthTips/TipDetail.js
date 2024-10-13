@@ -15,7 +15,7 @@ const TipDetail = ({ navigation }) => {
 
   return (
     <ScrollView style={{ flex: 1 }} className={'bg-neutral '}>
-      <View className={'flex flex-col items-start justify-between p-5 '}>
+      <View className={'flex flex-col items-start justify-between p-3'}>
         <Image
           source={{ uri: tip.image }}
           className={'w-full h-[350px] rounded-xl mb-5'}
@@ -26,7 +26,7 @@ const TipDetail = ({ navigation }) => {
         >
           {tip.title}
         </CustomText>
-        <CustomText className={'text-[15px]'}>{tip.doctor_name}</CustomText>
+        <CustomText className={'text-[15px]'}>Dr. {tip.doctor_name}</CustomText>
         <View className={'flex flex-col space-y-5 mt-5 '}>
           {tip.content.map((tip, index) => (
             <CustomText className={'text-lg'} key={index}>

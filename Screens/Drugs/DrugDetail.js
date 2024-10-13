@@ -65,7 +65,7 @@ const DrugDetail = ({ navigation }) => {
               {drug.drug_name}
             </CustomText>
             <View
-              className={`absolute h-[40px] w-[25px] right-0 top-0  rounded-b-lg ${
+              className={`absolute h-[40px] w-[25px] right-0 top-0 rounded-b-lg ${
                 days_left === 0
                   ? 'bg-red-600'
                   : days_left < 30 && days_left > 0
@@ -129,7 +129,7 @@ const DrugDetail = ({ navigation }) => {
               Manufacturing date: {drug.brand}
             </CustomText>
             <CustomText className={'text-[15px]'}>
-              Expiry date: {drug.batch_no}
+              Batch No {drug.batch_no}
             </CustomText>
           </View>
         </View>

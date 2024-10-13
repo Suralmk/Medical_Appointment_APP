@@ -5,7 +5,11 @@ import { useNavigation } from '@react-navigation/native'
 const Tip = ({ tip }) => {
   const navigation = useNavigation()
   return (
-    <View className={'bg-white rounded-xl w-full mb-8 shadow-xl shadow-black '}>
+    <View
+      className={
+        'bg-white rounded-xl w-full h-auto mb-8 shadow-lg shadow-black '
+      }
+    >
       <View className={'bg- rounded-xl p-3 flex flex-col space-y-3  w-full'}>
         <CustomText
           className={'text-xl'}
@@ -22,11 +26,11 @@ const Tip = ({ tip }) => {
         >
           <CustomText className={'text-lg text-primary'}> Read More</CustomText>
         </TouchableOpacity>
-        <CustomText className={'text-lg'}>{tip.doctor_name}</CustomText>
+        <CustomText className={'text-lg'}>Dr. {tip.doctor_name}</CustomText>
       </View>
 
       <Image
-        className={'w-full h-[270px] rounded-xl object-cover'}
+        className={'w-full min-h-[300px] rounded-xl object-contain'}
         source={{ uri: tip.image }}
       />
     </View>

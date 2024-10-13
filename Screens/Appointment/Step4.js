@@ -3,9 +3,14 @@ import { View, TouchableOpacity, Alert, ActivityIndicator } from 'react-native'
 import CustomText from '../../Components/CustomText'
 import api from '../../Core/api'
 import useGlobal from '../../Core/global'
-const Step4 = ({ handlePreviousStep, navigation, setCurrentStep }) => {
-  const { formData, selectedDoctor } = useGlobal()
-  const { tokens } = useGlobal()
+import utils from '../../Core/utils'
+const Step4 = ({
+  formData,
+  handlePreviousStep,
+  navigation,
+  setCurrentStep
+}) => {
+  const { tokens, selectedDoctor } = useGlobal()
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = async () => {
@@ -20,12 +25,13 @@ const Step4 = ({ handlePreviousStep, navigation, setCurrentStep }) => {
       if (res.status === 201) {
         Alert.alert(
           'Success',
-          'Appointment successfully created! \n Check and follow up from your Profile.'
+          'Appointment successfully created! \n \n Check and follow up from your Profile.'
         )
         navigation.navigate('Home')
         setCurrentStep(1)
       }
     } catch (err) {
+      utils.log(err)
       const errorMessage =
         err.response?.data?.message[0] ||
         err.message ||
@@ -36,27 +42,27 @@ const Step4 = ({ handlePreviousStep, navigation, setCurrentStep }) => {
     }
   }
 
-  // const [doctor, setDoctor] = useState('')
-  // const fetchDoctor = async () => {
-  //   try {
-  //     const res = await api.get(`doctors/${formData.doctor}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${tokens.access}`
-  //       }
-  //     })
-  //     setDoctor(res.data)
-  //   } catch (err) {
-  //     console.log(err.response)
-  //     Alert.alert(
-  //       'Error',
-  //       err.response ? err.response.data.detail : err.message
-  //     )
-  //   }
-  // }
+  const [doctor, setDoctor] = useState('')
+  const fetchDoctor = async () => {
+    try {
+      const res = await api.get(`doctors/${formData.doctor}`, {
+        headers: {
+          Authorization: `Bearer ${tokens.access}`
+        }
+      })
+      setDoctor(res.data)
+    } catch (err) {
+      console.log(err.response)
+      Alert.alert(
+        'Error',
+        err.response ? err.response.data.detail : err.message
+      )
+    }
+  }
 
-  // useEffect(() => {
-  //   fetchDoctor()
-  // }, [formData.doctor])
+  useEffect(() => {
+    // fetchDoctor()
+  }, [formData.doctor])
 
   return (
     <View className={'w-full flex-1 flex-col p-3 pt-5 bg-neutral'}>
