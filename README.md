@@ -1,4 +1,4 @@
-
+<img src="https://github.com/Suralmk/Medical_Appointment_APP/blob/main/assets/photo_2024-12-16_13-17-43.png?raw=true" width="100%" height="500px">
 # DocSync
 
 DocSync is a Medical Appointment App
